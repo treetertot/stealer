@@ -106,7 +106,7 @@ pub fn run<I: ExactSizeIterator + Send, O: Send, F: Fn(I::Item) -> O + Sync>(ite
     let mut out = SharedVec::new(iter.len());
     let iter = ParIter(Mutex::new(iter.enumerate()));
     let _res = scope(|s| {
-        for _ in 0..7 {
+        for _ in 0..num_cpus::get() {
             let builder = out.builder();
             s.spawn(|_| {worker(&iter, builder, &func)});
         }
