@@ -105,12 +105,16 @@ fn worker<I: ExactSizeIterator, O, F: Fn(I::Item) -> O>(iter: &ParIter<I>, mut o
 pub fn run<I: ExactSizeIterator + Send, O: Send, F: Fn(I::Item) -> O + Sync>(iter: I, func: F) -> Option<Vec<O>> {
     let mut out = SharedVec::new(iter.len());
     let iter = ParIter(Mutex::new(iter.enumerate()));
-    let _res = scope(|s| {
+    let res = scope(|s| {
         for _ in 0..num_cpus::get() {
             let builder = out.builder();
             s.spawn(|_| {worker(&iter, builder, &func)});
         }
         worker(&iter, out.builder(), &func);
     });
+    match res {
+        Ok(_) => (),
+        Err(_) => return None,
+    }
     out.collapse()
 }
