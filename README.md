@@ -10,3 +10,6 @@ For a concurrent fizzbuzz of 0 to 100000000 it was 5.99x the speed of rayon.
 
 The api consists of a function called run that takes an ExactSizeIterator and the closure to run.
 That's it.
+
+UNTIL NOW!!!
+Now we have ranges, which are way less versatile, but should be even faster
