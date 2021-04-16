@@ -1,6 +1,9 @@
 # stealer
 bare-bones parallel iterator
 
+Note: this project is dead. Rayon released an update that makes it faster than stealer a while ago.
+I'm still not sure how this ever ended up faster lol.
+
 Rayon is fantastic.
 It is feature rich and a beauty to use.
 
